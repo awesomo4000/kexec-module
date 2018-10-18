@@ -1,11 +1,28 @@
-KDIR ?= /lib/modules/`uname -r`/build
-ARCH ?= arm
+KDIR  ?= /usr/local/src/linux-3.18-msm
+CROSS ?= armv7-unknown-linux-gnueabihf-
+ARCH  ?= arm
 
 default: orig
-	$(MAKE) -C $(KDIR) M=$$PWD
+	$(MAKE) ARCH=$(ARCH) CROSS_COMPILE=$(CROSS) -C $(KDIR) M=$(PWD)
+	echo
+	-ls -la kexec-mod.ko
+	echo
 
 orig:
-	mkdir $@
-	ln -s $(KDIR)/arch/$(ARCH)/kernel/relocate_kernel.S
-	ln -s $(KDIR)/arch/$(ARCH)/kernel/machine_kexec.c $@/
-	ln -s $(KDIR)/kernel/kexec.c $@/
+	-mkdir $@
+	-cp -a $(KDIR)/arch/$(ARCH)/kernel/relocate_kernel.S $(PWD)
+	-cp -a $(KDIR)/arch/$(ARCH)/kernel/machine_kexec.c $@/
+	-cp -a $(KDIR)/kernel/kexec.c $@/
+
+clean:
+	-rm *.o
+	-rm .*.cmd
+	-rm relocate_kernel.S
+	-rm -rf ./orig
+	-rm -rf ./.tmp_versions
+	-rm modules.order
+	-rm Module.symvers
+
+cleanall: clean
+	-rm *.ko
+
