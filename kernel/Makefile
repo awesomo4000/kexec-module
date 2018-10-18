@@ -1,4 +1,4 @@
-KDIR  ?= /usr/local/src/linux-3.18-msm
+KDIR  ?= ~/src/linux-3.18-msm
 CROSS ?= armv7-unknown-linux-gnueabihf-
 ARCH  ?= arm
 
@@ -24,7 +24,8 @@ clean:
 	-rm -rf ./.tmp_versions
 	-rm modules.order
 	-rm Module.symvers
+	-rm kexec-mod.mod.c
 
-cleanall: clean
+distclean: clean
 	-rm *.ko
 
