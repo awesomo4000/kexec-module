@@ -7,6 +7,8 @@ default: orig
 	echo
 	-ls -la kexec-mod.ko
 	echo
+	modinfo kexec-mod.ko
+	echo
 
 orig:
 	-mkdir $@
